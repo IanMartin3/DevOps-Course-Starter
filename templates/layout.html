@@ -11,21 +11,12 @@
   </head>
   <body>
     <nav class="navbar navbar-dark bg-info">
-      <a class="navbar-brand" href="/">
-        <img src="/static/MidgoSoft.png" height="35" class="d-inline-block align-center" alt="">
-        To Do
-      </a>
-      <form class="form-inline" action="" method="POST">
-        <input type="text" class="form-control mr-sm-2" id="NewItemTitle" name="NewItem" placeholder="Item Title">
-        <button type="submit" class="btn btn-primary">Add Item</button>
-      </form>
+      <a class="navbar-brand" href="/"><img src="/static/MidgoSoft.png" height="35" class="d-inline-block align-center" alt=""> To Do</a>
     </nav>
 
     <br>
 
-    <div class="container-fluid body-content">
-      {% block content %}{% endblock %}
-    </div>
+    <div class="container-fluid body-content">{% block content %}{% endblock %}</div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
