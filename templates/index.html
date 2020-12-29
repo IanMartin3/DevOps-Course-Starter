@@ -2,31 +2,41 @@
 {% block title %}To-Do App{% endblock %}
 
 {% block content %}
-<div class="col-md-12">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">id</th>
-        <th scope="col">Title</th>
-        <th scope="col">Status</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in items %}
-      <tr>
-        <th scope="row">{{ item['id']}}</th>
-        <td>{{ item['title']}}</td>
-        <td>{{ item['status'] }}</td>
-        <td>
-          <form class="form-inline" action="" method="PUT">
-            <button type="submit" class="btn btn-success" name="CompleteTask"><i class="fa fa-check" aria-hidden="true"></i>&nbspComplete</button>
-            <button type="submit" class="btn btn-danger" name="CompleteTask"><i class="fa fa-trash" aria-hidden="true" disabled></i>&nbspDelete</button>
-          </form>
-        </td>
-      </tr>
+<div class="base">
+  <div class="board">
+    <div class="board-header">
+      <div class="left">
+        <div class="board-header-text">Board Title</div>
+      </div>
+    </div>
+    <div class="board-lists">
+      {% for list in lists %}
+      <div class="board-list">
+        <div class="list-title">
+          {{ list['name']}}
+        </div>
+        <div class="card">
+          Card 1
+        </div>
+        <div class="card">
+          Card 2
+        </div>
+        <div class="card">
+          Card 3
+        </div>
+        <div class="card">
+          Card 4
+        </div>
+        <div class="card">
+          Card 5
+        </div>
+        <div class="add-card">
+          + Add another card
+        </div>
+      </div>
       {% endfor %}
-    </tbody>
-  </table>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
