@@ -10,29 +10,12 @@
       </div>
     </div>
     <div class="board-lists">
-      {% for list in lists %}
+      {% for mylists in lists %}
       <div class="board-list">
         <div class="list-title">
-          {{ list['name']}}
+          {{ mylists['name']}}
         </div>
-        <div class="card">
-          Card 1
-        </div>
-        <div class="card">
-          Card 2
-        </div>
-        <div class="card">
-          Card 3
-        </div>
-        <div class="card">
-          Card 4
-        </div>
-        <div class="card">
-          Card 5
-        </div>
-        <div class="add-card">
-          + Add another card
-        </div>
+        <div class="card">Cards</div>
       </div>
       {% endfor %}
       </div>
