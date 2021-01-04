@@ -6,16 +6,18 @@
   <div class="board">
     <div class="board-header">
       <div class="left">
-        <div class="board-header-text">Board Title</div>
+        <div class="board-header-text">{{ board_title }}</div>
       </div>
     </div>
     <div class="board-lists">
-      {% for mylists in lists %}
+      {% for my_lists in lists %}
       <div class="board-list">
         <div class="list-title">
-          {{ mylists['name']}}
+          {{ my_lists['name'] }}
         </div>
-        <div class="card">Cards</div>
+        {% for cardsttd in cards_from_things_to_do %}
+        <div class="card">{{ cardsttd['name'] }}</div>
+        {% endfor %}
       </div>
       {% endfor %}
       </div>
