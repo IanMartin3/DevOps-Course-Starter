@@ -24,7 +24,7 @@ def index():
         session.save_item()
         return render_template('index.html', items = session.get_items())
     else:
-        return render_template('index.html', lists = Trello.get_all_cards())
+        return render_template('index.html', lists = Trello.get_all_lists(), board_title = Trello.board_title, cards_from_things_to_do = Trello.cards_from_things_to_do)
 
 if __name__ == '__main__':
     app.run()
