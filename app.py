@@ -1,30 +1,57 @@
 from flask import Flask, render_template, request, redirect, url_for
-import session_items as session
 import requests
 import json
-from config import key, token
 import Trello
-
-_DEFAULT_ITEMS = [
-    { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items' },
-    { 'id': 2, 'status': 'Not Started', 'title': 'Allow new items to be added' }
-]
+import os
 
 app = Flask(__name__)
-app.config.from_object('flask_config.Config')
 
-@app.route('/', methods = ['POST', 'GET', 'PUT', 'DELETE'])
+@app.route('/', methods=['GET', 'POST', 'PUT'])
 def index():
-    if request.method == 'POST':
-        NewItem = request.form["NewItem"]
-        session.add_item(NewItem)
-        return render_template('index.html', items = session.get_items())
-    elif request.method == 'PUT':
-        SelectedItem = requestform["CompleteTask"]
-        session.save_item()
-        return render_template('index.html', items = session.get_items())
-    else:
-        return render_template('index.html', lists = Trello.get_all_lists(), board_title = Trello.board_title, cards_from_things_to_do = Trello.cards_from_things_to_do)
+    return render_template(
+        'index.html', 
+        lists = Trello.lists, 
+        boards = Trello.boards,
+        cards_from_things_to_do = Trello.cards_from_things_to_do(), 
+        cards_from_doing = Trello.cards_from_doing(), 
+        cards_from_done = Trello.cards_from_done()
+    )
+
+@app.route('/add_thing_to_do/', methods=['POST'])
+def add_thing_to_do(): 
+    NewThingToDo = request.form['NewThingToDo']
+    requests.post(Trello.post_things_to_do, params={**Trello.trello_params, 'name': NewThingToDo})
+    return redirect(url_for('index'))
+
+@app.route('/add_doing/', methods=['POST'])
+def add_doing(): 
+    NewDoingTask = request.form['NewDoingTask']
+    requests.post(Trello.post_doing, params={**Trello.trello_params, 'name': NewDoingTask})
+    return redirect(url_for('index'))
+
+@app.route('/add_done/', methods=['POST'])
+def add_done(): 
+    NewDoneTask = request.form['NewDoneTask']
+    requests.post(Trello.post_done, params={**Trello.trello_params, 'name': NewDoneTask})
+    return redirect(url_for('index'))
+
+@app.route('/move_card_to_to_do/<id>')
+def move_card_to_to_do(id):
+    card_to_move = f"https://api.trello.com/1/cards/{id}"
+    requests.put(card_to_move, headers=Trello.headers, params={**Trello.trello_params, 'idList': {os.getenv('THINGS_TO_DO_LIST_ID')}})
+    return redirect(url_for('index'))
+
+@app.route('/move_card_to_doing/<id>')
+def move_card_to_doing(id):
+    card_to_move = f"https://api.trello.com/1/cards/{id}"
+    requests.put(card_to_move, headers=Trello.headers, params={**Trello.trello_params, 'idList': {os.getenv('DOING_LIST_ID')}})
+    return redirect(url_for('index'))
+
+@app.route('/move_card_to_done/<id>')
+def move_card_to_done(id):
+    card_to_move = f"https://api.trello.com/1/cards/{id}"
+    requests.put(card_to_move, headers=Trello.headers, params={**Trello.trello_params, 'idList': {os.getenv('DONE_LIST_ID')}})
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
