@@ -40,8 +40,8 @@ The `.env` file is used by flask to set environment variables when running `flas
 
 Add your Trello details for the below to your `.env` file: 
 
-* KEY
-* TOKEN
+* TRELLO_KEY
+* TRELLO_TOKEN
 * TRELLO_BOARD_ID
 * THINGS_TO_DO_LIST_ID
 * DOING_LIST_ID
