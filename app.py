@@ -12,9 +12,10 @@ def index():
         'index.html', 
         lists = Trello.lists, 
         boards = Trello.boards,
-        cards_from_things_to_do = Trello.cards_from_things_to_do(), 
-        cards_from_doing = Trello.cards_from_doing(), 
-        cards_from_done = Trello.cards_from_done()
+        all_my_cards = Trello.cards_on_this_board(),
+        todo_id = Trello.todoid,
+        doing_id = Trello.doingid,
+        done_id = Trello.doneid
     )
 
 @app.route('/add_thing_to_do/', methods=['POST'])
