@@ -16,45 +16,29 @@
         <div class="list-title">
           {{ my_lists['name'] }}
         </div>
-        {% if my_lists['id'] == "5f6885825920b36763183967" %}
-          {% for cards_in_things_to_do in cards_from_things_to_do %}
+        {% for cards in all_my_cards %}
+          {% if my_lists['id'] == cards['idList']  %}
           <div class="card" draggable="true">
             <div class="cardTEST">
-                <p class="mb-0">{{ cards_in_things_to_do['name'] }}</p>
-                <a href="{{ url_for('move_card_to_doing', id=cards_in_things_to_do['id']) }}" class="btn btn-primary float-right">Start</a>
-            </div>
-          </div>
-          {% endfor %}
-          <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemToDo"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
-        {% elif my_lists['id'] == "5f6885839b05510e2ab37c14" %}
-          {% for cards_in_doing in cards_from_doing %}
-          <div class="card">
-            <div class="cardTEST">
-                <p class="mb-0">{{ cards_in_doing['name'] }}</p>
+                <p class="mb-0">{{ cards['name'] }}</p>
+                {% if my_lists['id'] == todo_id  %}
+                <a href="{{ url_for('move_card_to_doing', id=cards['id']) }}" class="btn btn-primary float-right">Start</a>
+                {% elif my_lists['id'] == doing_id %}
                 <div class="btn-group" role="group" aria-label="doing_button_group">
-                  <a href="{{ url_for('move_card_to_to_do', id=cards_in_doing['id']) }}" class="btn btn-primary float-right">Not Started</a>
-                  <a href="{{ url_for('move_card_to_done', id=cards_in_doing['id']) }}" class="btn btn-success float-right">Complete</a>
+                  <a href="{{ url_for('move_card_to_to_do', id=cards['id']) }}" class="btn btn-primary float-right">Not Started</a>
+                  <a href="{{ url_for('move_card_to_done', id=cards['id']) }}" class="btn btn-success float-right">Complete</a>
                 </div>
+                {% elif my_lists['id'] == done_id %}
+                <a href="{{ url_for('move_card_to_doing', id=cards['id']) }}" class="btn btn-primary float-right">Not Complete</a>
+                {% endif %}
             </div>
           </div>
-          {% endfor %}
-          <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemDoing"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
-        {% else %}
-          {% for cards_in_done in cards_from_done %}
-          <div class="card">
-            <div class="cardTEST">
-                <p class="mb-0">{{ cards_in_done['name'] }}</p>
-                <a href="{{ url_for('move_card_to_doing', id=cards_in_done['id']) }}" class="btn btn-primary float-right">Not Complete</a>
-
-            </div>
-          </div>
-          {% endfor %}
-          
-          <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemDone"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
-        {% endif %}
+          {% endif %}
+        {% endfor %}
+          <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemToDo"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
       </div>
       {% endfor %}
-      </div>
+    </div>
     </div>
   </div>
 </div>
