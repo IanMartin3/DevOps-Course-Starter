@@ -18,8 +18,7 @@
         </div>
         {% for cards in all_my_cards %}
           {% if my_lists['id'] == cards['idList']  %}
-          <div class="card" draggable="true">
-            <div class="cardTEST">
+            <div class="card" draggable="true">
                 <p class="mb-0">{{ cards['name'] }}</p>
                 {% if my_lists['id'] == todo_id  %}
                 <a href="{{ url_for('move_card_to_doing', id=cards['id']) }}" class="btn btn-primary float-right">Start</a>
@@ -32,7 +31,6 @@
                 <a href="{{ url_for('move_card_to_doing', id=cards['id']) }}" class="btn btn-primary float-right">Not Complete</a>
                 {% endif %}
             </div>
-          </div>
           {% endif %}
         {% endfor %}
           <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemToDo"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
