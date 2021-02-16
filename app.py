@@ -18,22 +18,16 @@ def index():
     )
 
 @app.route('/add_thing_to_do/', methods=['POST'])
-def add_thing_to_do(): 
-    NewThingToDo = request.form['NewThingToDo']
-    requests.post(Trello.post_things_to_do, params={**Trello.trello_params, 'name': NewThingToDo})
-    return redirect(url_for('index'))
+def add_thing_to_do():
+    return Trello.add_thing_to_do()
 
 @app.route('/add_doing/', methods=['POST'])
-def add_doing(): 
-    NewDoingTask = request.form['NewDoingTask']
-    requests.post(Trello.post_doing, params={**Trello.trello_params, 'name': NewDoingTask})
-    return redirect(url_for('index'))
+def add_doing():
+    return Trello.add_doing()
 
 @app.route('/add_done/', methods=['POST'])
-def add_done(): 
-    NewDoneTask = request.form['NewDoneTask']
-    requests.post(Trello.post_done, params={**Trello.trello_params, 'name': NewDoneTask})
-    return redirect(url_for('index'))
+def add_done():
+    return Trello.add_done() 
 
 @app.route('/move_card_to_to_do/<id>')
 def move_card_to_to_do(id):
