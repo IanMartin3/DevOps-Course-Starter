@@ -46,45 +46,28 @@ lists = all_lists.json()
 
 list_id = all_lists.json()[0]['id']
 
-def cards_from_things_to_do():
-   get_cards_from_things_to_do = f"https://api.trello.com/1/lists/{os.getenv('THINGS_TO_DO_LIST_ID')}/cards/"
-   all_cards_from_things_to_do = requests.request(
+def cards_on_this_board():
+   get_all_cards = f"https://api.trello.com/1/boards/{os.getenv('TRELLO_BOARD_ID')}/cards/"
+   all_cards = requests.request(
       "GET",
-      get_cards_from_things_to_do,
+      get_all_cards,
       headers=headers,
       params=trello_params
    )
 
-   return all_cards_from_things_to_do.json()
-
-def cards_from_doing():
-   get_cards_from_doing = f"https://api.trello.com/1/lists/{os.getenv('DOING_LIST_ID')}/cards/"
-   all_cards_from_doing = requests.request(
-      "GET",
-      get_cards_from_doing,
-      headers=headers,
-      params=trello_params
-   )
-
-   return all_cards_from_doing.json()
-
-def cards_from_done():
-   get_cards_from_done = f"https://api.trello.com/1/lists/{os.getenv('DONE_LIST_ID')}/cards/"
-   all_cards_from_done = requests.request(
-      "GET",
-      get_cards_from_done,
-      headers=headers,
-      params=trello_params
-   )
-
-   return all_cards_from_done.json()
+   return all_cards.json()
 
 post_things_to_do = f"https://api.trello.com/1/lists/{os.getenv('THINGS_TO_DO_LIST_ID')}/cards/"
-
 post_doing = f"https://api.trello.com/1/lists/{os.getenv('DOING_LIST_ID')}/cards/"
-
 post_done = f"https://api.trello.com/1/lists/{os.getenv('DONE_LIST_ID')}/cards/"
 
+
+"""
+Variables for list ids 
+"""
+todoid = f"{os.getenv('THINGS_TO_DO_LIST_ID')}"
+doingid = f"{os.getenv('DOING_LIST_ID')}"
+doneid = f"{os.getenv('DONE_LIST_ID')}"
 
 """
 Add Cards to Lists on Trello Board 
