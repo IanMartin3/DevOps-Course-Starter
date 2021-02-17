@@ -3,15 +3,17 @@ import requests
 import json
 import Trello
 import os
+import moment
+from datetime import datetime
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def index():
     return render_template(
-        'index.html', 
-        lists = Trello.lists, 
-        boards = Trello.boards,
+        'index.html',
+        all_my_boards = Trello.boards(),
+        all_my_lists = Trello.lists_on_this_board(),
         all_my_cards = Trello.cards_on_this_board(),
         todo_id = Trello.todoid,
         doing_id = Trello.doingid,
