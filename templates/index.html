@@ -1,39 +1,45 @@
 {% extends "layout.html" %}
-{% block title %}To-Do App{% endblock %}
+{% block title %}Midgosoft To-Do{% endblock %}
 
 {% block content %}
 <div class="Form">
 <div class="base">
   <div class="board">
-    <div class="board-header">
-      <div class="left">
-        <div class="board-header-text">{{ boards[0]['name'] }}</div>
-      </div>
-    </div>
     <div class="board-lists">
-      {% for my_lists in lists %}
+      {% for my_lists in all_my_lists %}
       <div class="board-list">
-        <div class="list-title">
+        <div class="list-title-text">
           {{ my_lists['name'] }}
         </div>
         {% for cards in all_my_cards %}
           {% if my_lists['id'] == cards['idList']  %}
-            <div class="card" draggable="true">
-                <p class="mb-0">{{ cards['name'] }}</p>
+          <div class="card" draggable="true">
+            <div class="card-body">
+              <h6 class="card-title">{{ cards['name'] }}</h6>
+              <p class="card-text"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ cards['due'] }}</p>
+            </div>
+            <div class="card-footer">
                 {% if my_lists['id'] == todo_id  %}
-                <a href="{{ url_for('move_card_to_doing', id=cards['id']) }}" class="btn btn-primary float-right">Start</a>
+                <a href="{{ url_for('move_card_to_doing', id=cards['id']) }}" class="btn btn-primary">Start</a>
                 {% elif my_lists['id'] == doing_id %}
                 <div class="btn-group" role="group" aria-label="doing_button_group">
-                  <a href="{{ url_for('move_card_to_to_do', id=cards['id']) }}" class="btn btn-primary float-right">Not Started</a>
-                  <a href="{{ url_for('move_card_to_done', id=cards['id']) }}" class="btn btn-success float-right">Complete</a>
+                  <a href="{{ url_for('move_card_to_to_do', id=cards['id']) }}" class="btn btn-primary">Not Started</a>
+                  <a href="{{ url_for('move_card_to_done', id=cards['id']) }}" class="btn btn-success">Complete</a>
                 </div>
                 {% elif my_lists['id'] == done_id %}
-                <a href="{{ url_for('move_card_to_doing', id=cards['id']) }}" class="btn btn-primary float-right">Not Complete</a>
-                {% endif %}
+                <a href="{{ url_for('move_card_to_doing', id=cards['id']) }}" class="btn btn-primary">Not Complete</a>
+              {% endif %}
             </div>
+          </div>
           {% endif %}
         {% endfor %}
-          <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemToDo"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
+        {% if my_lists['id'] == todo_id %}
+        <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemToDo"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
+        {% elif my_lists['id'] == doing_id %}
+        <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemDoing"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
+        {% elif my_lists['id'] == done_id %}
+        <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemDone"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
+        {% endif %}
       </div>
       {% endfor %}
     </div>
