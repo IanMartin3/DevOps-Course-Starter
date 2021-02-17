@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 import requests
 import os
 import json
+import moment
+from datetime import datetime
 
 """
 Required for all Trello API Calls
@@ -18,34 +20,34 @@ trello_params = {
 """
 Get Trello Board 
 """
-get_boards = "https://api.trello.com/1/members/me/boards"
+def boards():
+   get_all_boards = "https://api.trello.com/1/members/me/boards"
+   all_boards = requests.request(
+      "GET",
+      get_all_boards,
+      headers=headers,
+      params=trello_params
+   )
 
-all_boards = requests.request(
-   "GET",
-   get_boards,
-   headers=headers,
-   params=trello_params
-)
-
-boards = all_boards.json()
-board_id = all_boards.json()[0]['id']
+   return all_boards.json()
 
 """
-Get All Trello Lists 
+Get All Lists 
 """
-generate_list_string = f"https://api.trello.com/1/boards/{os.getenv('TRELLO_BOARD_ID')}/lists/"
+def lists_on_this_board():
+   get_all_lists = f"https://api.trello.com/1/boards/{os.getenv('TRELLO_BOARD_ID')}/lists/"
+   all_lists = requests.request(
+      "GET",
+      get_all_lists,
+      headers=headers,
+      params=trello_params
+   )
 
-all_lists = requests.request(
-   "GET",
-   generate_list_string,
-   headers=headers,
-   params=trello_params
-)
+   return all_lists.json()
 
-lists = all_lists.json()
-
-list_id = all_lists.json()[0]['id']
-
+"""
+Get All Cards 
+"""
 def cards_on_this_board():
    get_all_cards = f"https://api.trello.com/1/boards/{os.getenv('TRELLO_BOARD_ID')}/cards/"
    all_cards = requests.request(
