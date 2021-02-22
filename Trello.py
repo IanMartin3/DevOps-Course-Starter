@@ -5,9 +5,7 @@ import json
 import moment
 from datetime import datetime
 
-"""
-Required for all Trello API Calls
-"""
+#Required for all Trello API Calls
 headers = {
     "Accept": "application/json"
 }
@@ -17,9 +15,7 @@ trello_params = {
     'token': os.getenv('TRELLO_TOKEN')
 }
 
-"""
-Get Trello Board 
-"""
+#Get Trello Board
 def boards():
    get_all_boards = "https://api.trello.com/1/members/me/boards"
    all_boards = requests.request(
@@ -31,9 +27,7 @@ def boards():
 
    return all_boards.json()
 
-"""
-Get All Lists 
-"""
+#Get All Lists 
 def lists_on_this_board():
    get_all_lists = f"https://api.trello.com/1/boards/{os.getenv('TRELLO_BOARD_ID')}/lists/"
    all_lists = requests.request(
@@ -45,9 +39,7 @@ def lists_on_this_board():
 
    return all_lists.json()
 
-"""
-Get All Cards 
-"""
+#Get All Cards 
 def cards_on_this_board():
    get_all_cards = f"https://api.trello.com/1/boards/{os.getenv('TRELLO_BOARD_ID')}/cards/"
    all_cards = requests.request(
@@ -59,21 +51,17 @@ def cards_on_this_board():
 
    return all_cards.json()
 
+#Variables for adding cards to lists
 post_things_to_do = f"https://api.trello.com/1/lists/{os.getenv('THINGS_TO_DO_LIST_ID')}/cards/"
 post_doing = f"https://api.trello.com/1/lists/{os.getenv('DOING_LIST_ID')}/cards/"
 post_done = f"https://api.trello.com/1/lists/{os.getenv('DONE_LIST_ID')}/cards/"
 
-
-"""
-Variables for list ids 
-"""
+#Variables for list ids 
 todoid = f"{os.getenv('THINGS_TO_DO_LIST_ID')}"
 doingid = f"{os.getenv('DOING_LIST_ID')}"
 doneid = f"{os.getenv('DONE_LIST_ID')}"
 
-"""
-Add Cards to Lists on Trello Board 
-"""
+#Add Cards to Lists on Trello Board 
 def add_thing_to_do(): 
     NewThingToDo = request.form['NewThingToDo']
     requests.post(post_things_to_do, params={**trello_params, 'name': NewThingToDo})
