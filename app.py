@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import requests
 import json
-import Trello
+import trello
 import os
 import moment
 from datetime import datetime
@@ -12,42 +12,39 @@ app = Flask(__name__)
 def index():
     return render_template(
         'index.html',
-        all_my_boards = Trello.boards(),
-        all_my_lists = Trello.lists_on_this_board(),
-        all_my_cards = Trello.cards_on_this_board(),
-        todo_id = Trello.todoid,
-        doing_id = Trello.doingid,
-        done_id = Trello.doneid
+        all_my_boards = trello.boards(),
+        all_my_lists = trello.lists_on_this_board(),
+        all_my_cards = trello.cards_on_this_board(),
+        todo_id = trello.todoid,
+        doing_id = trello.doingid,
+        done_id = trello.doneid
     )
 
 @app.route('/add_thing_to_do/', methods=['POST'])
 def add_thing_to_do():
-    return Trello.add_thing_to_do()
+    return trello.add_thing_to_do()
 
 @app.route('/add_doing/', methods=['POST'])
 def add_doing():
-    return Trello.add_doing()
+    return trello.add_doing()
 
 @app.route('/add_done/', methods=['POST'])
 def add_done():
-    return Trello.add_done() 
+    return trello.add_done() 
 
 @app.route('/move_card_to_to_do/<id>')
 def move_card_to_to_do(id):
-    card_to_move = f"https://api.trello.com/1/cards/{id}"
-    requests.put(card_to_move, headers=Trello.headers, params={**Trello.trello_params, 'idList': {os.getenv('THINGS_TO_DO_LIST_ID')}})
+    trello.move_card_to_todo(id)
     return redirect(url_for('index'))
 
 @app.route('/move_card_to_doing/<id>')
 def move_card_to_doing(id):
-    card_to_move = f"https://api.trello.com/1/cards/{id}"
-    requests.put(card_to_move, headers=Trello.headers, params={**Trello.trello_params, 'idList': {os.getenv('DOING_LIST_ID')}})
+    trello.start_card(id)
     return redirect(url_for('index'))
 
 @app.route('/move_card_to_done/<id>')
 def move_card_to_done(id):
-    card_to_move = f"https://api.trello.com/1/cards/{id}"
-    requests.put(card_to_move, headers=Trello.headers, params={**Trello.trello_params, 'idList': {os.getenv('DONE_LIST_ID')}})
+    trello.complete_card(id)
     return redirect(url_for('index'))
 
 if __name__ == '__main__':

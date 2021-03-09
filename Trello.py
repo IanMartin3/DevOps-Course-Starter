@@ -76,3 +76,15 @@ def add_done():
     NewDoneTask = request.form['NewDoneTask']
     requests.post(post_done, params={**trello_params, 'name': NewDoneTask})
     return redirect(url_for('index'))
+
+def move_card_to_todo(id):
+   url = f"https://api.trello.com/1/cards/{id}"
+   requests.put(url, params={**trello_params, 'idList': {os.getenv('THINGS_TO_DO_LIST_ID')}})
+
+def start_card(id):
+   url = f"https://api.trello.com/1/cards/{id}"
+   requests.put(url, params={**trello_params, 'idList': {os.getenv('DOING_LIST_ID')}})
+
+def complete_card(id):
+   url = f"https://api.trello.com/1/cards/{id}"
+   requests.put(url, params={**trello_params, 'idList': {os.getenv('DONE_LIST_ID')}})
