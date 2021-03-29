@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "env\\Scripts\\python.exe",
+    "python.pythonPath": "c:\\Users\\P10304084\\OneDrive - Capita\\Desktop\\Exercises\\Module 1 - To-Do Web App\\DevOps-Course-Starter\\env\\Scripts\\python.exe",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.linting.pylintPath": "env/Lib/site-packages/pylint"
