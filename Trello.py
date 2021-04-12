@@ -115,7 +115,7 @@ class TrelloAPI:
 
 
        
-class CardService:
+class card_service:
     def __init__(self):
       self.todo_list_id = os.getenv('todo_list_id')
       self.doing_list_id = os.getenv('doing_list_id')

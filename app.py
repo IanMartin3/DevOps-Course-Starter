@@ -7,7 +7,7 @@ from view_model import ViewModel
 def create_app():
     app = Flask(__name__)
     trello_api = trello.TrelloAPI()
-    card_call = trello.CardService()
+    card_call = trello.card_service()
     @app.route('/', methods=['GET'])
     def index():
         items = card_call.card_details(trello_api.get_all_cards_on_this_board())
