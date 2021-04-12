@@ -3,46 +3,91 @@
 
 {% block content %}
 <div class="Form">
-<div class="base">
-  <div class="board">
-    <div class="board-lists">
-      {% for my_lists in all_my_lists %}
-      <div class="board-list">
-        <div class="list-title-text">
-          {{ my_lists['name'] }}
-        </div>
-        {% for cards in all_my_cards %}
-          {% if my_lists['id'] == cards['idList']  %}
-          <div class="card" draggable="true">
-            <div class="card-body">
-              <h6 class="card-title">{{ cards['name'] }}</h6>
-              <p class="card-text"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ cards['due'] }}</p>
+  <div class="base">
+    <div class="board">
+      <div class="board-lists">
+        <div class="board-list">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="list-title-text">Things to Do</div>
             </div>
-            <div class="card-footer">
-                {% if my_lists['id'] == todo_id  %}
-                <a href="{{ url_for('move_card_to_doing', id=cards['id']) }}" class="btn btn-primary">Start</a>
-                {% elif my_lists['id'] == doing_id %}
-                <div class="btn-group" role="group" aria-label="doing_button_group">
-                  <a href="{{ url_for('move_card_to_to_do', id=cards['id']) }}" class="btn btn-primary">Not Started</a>
-                  <a href="{{ url_for('move_card_to_done', id=cards['id']) }}" class="btn btn-success">Complete</a>
+          </div>          
+          {% for item in view_model.todo_items() %}
+          <div class="card border border-success shadow-0" draggable="true">
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+              <button class="btn btn-light text-left" data-toggle="modal" data-target="#EditTask">{{ item['name'] }}</button>
+              <div class="btn-group" role="group">
+                <button id="btnGroupToDoItems" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupToDoItems">
+                  <a href="{{ url_for('move_card_to_doing', id=item['id']) }}" class="dropdown-item">Start</a>
+                  <a href="{{ url_for('move_card_to_done', id=item['id']) }}" class="dropdown-item">Complete</a>
                 </div>
-                {% elif my_lists['id'] == done_id %}
-                <a href="{{ url_for('move_card_to_doing', id=cards['id']) }}" class="btn btn-primary">Not Complete</a>
-              {% endif %}
+              </div>
+            </div>
+            <div class="card-body">
+              <small class="text-muted"><b>Due:</b> {{ item['due_date'] }}</small><br>
+              <small class="text-muted"><b>Last Modified:</b> {{ item['modified_date'] }}</small><br>
             </div>
           </div>
-          {% endif %}
-        {% endfor %}
-        {% if my_lists['id'] == todo_id %}
-        <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemToDo"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
-        {% elif my_lists['id'] == doing_id %}
-        <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemDoing"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
-        {% elif my_lists['id'] == done_id %}
-        <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemDone"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
-        {% endif %}
+          {% endfor %}
+          <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemToDo"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
+        </div>
+
+        <div class="board-list">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="list-title-text">Doing</div>
+            </div>
+          </div>
+          {% for item in view_model.doing_items() %}
+          <div class="card border border-success shadow-0" draggable="true">
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+              <button class="btn btn-light text-left" data-toggle="modal" data-target="#EditTask">{{ item['name'] }}</button>
+              <div class="btn-group" role="group">
+                <button id="btnGroupDoingItems" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDoingItems">
+                  <a href="{{ url_for('move_card_to_to_do', id=item['id']) }}" class="dropdown-item">Not Started</a>
+                  <a href="{{ url_for('move_card_to_done', id=item['id']) }}" class="dropdown-item">Complete</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <small class="text-muted"><b>Due:</b> {{ item['due_date'] }}</small><br>
+              <small class="text-muted"><b>Last Modified:</b> {{ item['modified_date'] }}</small><br>
+            </div>
+          </div>
+          {% endfor %}
+          <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemDoing"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a card</button>
+        </div>
+
+        <div class="board-list">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="list-title-text">Done</div>
+            </div>
+          </div>
+          {% for item in view_model.done_items() %}
+          <div class="card border border-success shadow-0" draggable="true">
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+              <button class="btn btn-light text-left" data-toggle="modal" data-target="#EditTask">{{ item['name'] }}</button>
+              <div class="btn-group" role="group">
+                <button id="btnGroupDoneItems" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDoneItems">
+                  <a href="{{ url_for('move_card_to_to_do', id=item['id']) }}" class="dropdown-item">Not Started</a>
+                  <a href="{{ url_for('move_card_to_doing', id=item['id']) }}" class="dropdown-item">Not Complete</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <small class="text-muted"><b>Due:</b> {{ item['due_date'] }}</small><br>
+              <small class="text-muted"><b>Last Modified:</b> {{ item['modified_date'] }}</small><br>
+            </div>
+          </div>
+          {% endfor %}
+          <button class="add-card-btn btn" data-toggle="modal" data-target="#AddItemDone"><i class="fa fa-plus-circle"
+              aria-hidden="true"></i> Add a card</button>
+        </div>
       </div>
-      {% endfor %}
-    </div>
     </div>
   </div>
 </div>
